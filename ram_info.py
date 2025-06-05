@@ -1,9 +1,34 @@
-from psutil import virtual_memory
+"""
+Module de surveillance de la mémoire RAM
+----------------------------------------
+Ce module fournit des informations sur l'utilisation de la mémoire RAM du système :
+- Mémoire totale disponible
+- Mémoire libre
+- Pourcentage d'utilisation
 
-def get_ram_info():
-    mem = virtual_memory()
-    return {
-        'ram_total_mb': round(mem.total / 1024 / 1024, 2),
-        'ram_used_mb': round(mem.used / 1024 / 1024, 2),
-        'ram_percent': mem.percent
-    } 
+Utilise la bibliothèque psutil pour obtenir les informations système.
+"""
+
+import psutil
+
+def get_data():
+    """
+    Récupère les informations sur la mémoire RAM.
+    
+    Returns:
+        dict: Dictionnaire contenant :
+            - memory_total: Quantité totale de RAM en octets
+            - memory_free: Quantité de RAM libre en octets
+            - memory_percent: Pourcentage d'utilisation de la RAM
+    """
+    try:
+        memory = psutil.virtual_memory()
+        return {
+            "memory_total": memory.total,
+            "memory_free": memory.free,
+            "memory_percent": memory.percent
+        }
+    except Exception as e:
+        return {"error": f"Error in ram_info: {str(e)}"} 
+    
+    
